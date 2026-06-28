@@ -1,0 +1,30 @@
+# Dot Sprite Editor (도트 스프라이트 에디터)
+
+> Free, browser-only pixel art and sprite editor. No install, no sign-up. All editing happens locally in the browser; nothing is uploaded.
+
+URL: https://hanariago.github.io/tool-dot-sprite-editor/
+License: MIT (open source)
+Repo: https://github.com/hanariago/tool-dot-sprite-editor
+
+## What it is
+A web-based pixel-art (dot) editor and sprite/animation maker that runs entirely in the browser. Aimed at game sprites, icons, and pixel illustrations.
+
+## Features
+- Drawing: pencil, eraser, flood fill, eyedropper; brush size 1–3px; symmetry (horizontal/vertical/quad); line, rectangle, ellipse.
+- Editing: undo/redo (includes size/scale changes), rectangular selection move/copy/clipboard, horizontal/vertical flip, 90° rotate, integer scale up/down (x2/x3/x4, /2.../4).
+- Frames & animation: add/duplicate/delete frames, onion skin (previous=red, next=blue ghost), FPS playback, motion-frame templates (walk/attack/jump…).
+- Color & palette: native picker + HEX + opacity + HSL; 8–256 colors (web-safe 216 + 40 grays) or unlimited HSL; recent colors; save/load palettes (.pal).
+- Image import: drop a photo/PNG to convert to dots — anti-aliasing toggle, edge sharpness (alpha threshold), palette reduction target, background removal (edge-connected only, preserves interior same-color).
+- Export & save: .sprite (JSON, multi-frame) to keep editing; transparent PNG (scale x1–x16, nearest); sprite-sheet PNG.
+- AI drawing (optional): generate pixel JSON or images via Claude/GPT/Grok/Gemini/Hermes using your own API key, or copy a prompt to your own subscription chat and paste the result back. Requests go directly to the chosen provider; this site has no server and stores nothing.
+- View: cursor-centered wheel zoom (integer-snapped, sharp grid), panning (middle-click or Space+drag), 1x/2x/4x preview, 3x3 tile preview. Mobile: touch drawing, pinch zoom, responsive layout.
+
+## Privacy
+Core features run 100% in the browser with no server and no upload. The optional AI feature sends data only to the provider you choose, using your own key.
+
+## FAQ
+- Is it free? Yes, free and open source, no sign-up.
+- Is my artwork sent to a server? No, except the optional AI feature which goes directly to your chosen AI with your own key.
+- Formats? .sprite (JSON with frames) for editing; PNG (scaled) and sprite-sheet PNG for output.
+- Mobile? Yes — touch drawing and pinch zoom, responsive.
+- Animations? Yes — multiple frames, FPS playback, onion skin, motion templates.

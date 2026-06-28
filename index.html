@@ -1,0 +1,539 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>도트 스프라이트 에디터 — 무료 온라인 픽셀 아트 / 스프라이트 메이커</title>
+<meta name="description" content="설치·회원가입 없이 브라우저에서 바로 쓰는 무료 픽셀 아트(도트) 스프라이트 에디터. 대칭·프레임 애니메이션·어니언 스킨·PNG/스프라이트 시트 내보내기. Free online pixel art & sprite editor.">
+<meta name="keywords" content="픽셀 아트, 도트 에디터, 스프라이트 에디터, 도트 그리기, 픽셀아트 메이커, 스프라이트 시트, pixel art editor, sprite editor, pixel art maker, spritesheet, dot art, free online">
+<meta name="robots" content="index, follow, max-image-preview:large">
+<meta name="theme-color" content="#4a6fa5">
+<link rel="canonical" href="https://hanariago.github.io/tool-dot-sprite-editor/">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Crect width='16' height='16' fill='%234a6fa5'/%3E%3Crect x='3' y='3' width='4' height='4' fill='%23fff'/%3E%3Crect x='9' y='9' width='4' height='4' fill='%23fff'/%3E%3C/svg%3E">
+<!-- Open Graph / Twitter -->
+<meta property="og:type" content="website">
+<meta property="og:title" content="도트 스프라이트 에디터 — 무료 온라인 픽셀 아트 / 스프라이트 메이커">
+<meta property="og:description" content="브라우저에서 바로 쓰는 무료 픽셀 아트 스프라이트 에디터. 대칭·프레임 애니메이션·어니언 스킨·PNG/시트 내보내기.">
+<meta property="og:url" content="https://hanariago.github.io/tool-dot-sprite-editor/">
+<meta property="og:site_name" content="Dot Sprite Editor">
+<meta property="og:locale" content="ko_KR">
+<meta property="og:locale:alternate" content="en_US">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Dot Sprite Editor — Free Online Pixel Art & Sprite Maker">
+<meta name="twitter:description" content="Free, browser-only pixel art & sprite editor. Symmetry, frame animation, onion skin, PNG / sprite-sheet export.">
+<meta name="twitter:creator" content="@thezenvoid">
+<!-- 구조화 데이터 -->
+<script type="application/ld+json">
+{
+  "@context":"https://schema.org",
+  "@type":"WebApplication",
+  "name":"Dot Sprite Editor",
+  "url":"https://hanariago.github.io/tool-dot-sprite-editor/",
+  "description":"Free browser-based pixel art and sprite editor with symmetry, frame animation, onion skinning, and PNG / sprite-sheet export.",
+  "applicationCategory":"DesignApplication",
+  "operatingSystem":"Any (web browser)",
+  "offers":{"@type":"Offer","price":"0","priceCurrency":"USD"},
+  "inLanguage":["ko","en"],
+  "featureList":["Pixel drawing with brush, symmetry, lines and shapes","Selection move/copy, flip, rotate, integer scale","Frame animation with onion skin and motion templates","Sprite-sheet and scaled PNG export","Image import with background removal and palette reduction","Optional AI drawing with your own API key"],
+  "author":{"@type":"Person","name":"hanariago"},
+  "license":"https://opensource.org/licenses/MIT"
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context":"https://schema.org",
+  "@type":"FAQPage",
+  "mainEntity":[
+    {"@type":"Question","name":"Is it free?","acceptedAnswer":{"@type":"Answer","text":"Yes, completely free with no sign-up. It is open source."}},
+    {"@type":"Question","name":"Is my artwork sent to a server?","acceptedAnswer":{"@type":"Answer","text":"No. Drawing, saving and exporting all happen in your browser. Only the optional AI feature sends data, directly to the AI you pick with your own key."}},
+    {"@type":"Question","name":"What formats can I save or export?","acceptedAnswer":{"@type":"Answer","text":"Use .sprite (JSON, with frames) to keep editing, and export a transparent PNG (scale x1 to x16) or a sprite-sheet PNG."}},
+    {"@type":"Question","name":"Does it work on mobile?","acceptedAnswer":{"@type":"Answer","text":"Yes. Touch drawing and pinch zoom are supported and the layout adapts to screen width."}},
+    {"@type":"Question","name":"Can I make animations?","acceptedAnswer":{"@type":"Answer","text":"Yes. Create multiple frames, play them at a chosen FPS, and draw motions like walk or attack with onion skinning and motion templates."}}
+  ]
+}
+</script>
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+<div id="app">
+<div id="toolbar">
+  <button id="btn-draw" data-tool="draw" class="active" title="그리기 (D) — 클릭·드래그로 픽셀을 현재 전경색으로 칠합니다. 빠르게 드래그해도 끊기지 않아요.">&#9999;&#65039;</button>
+  <button id="btn-erase" data-tool="erase" title="지우기 (E) — 픽셀을 투명하게 지웁니다. (배경색이 아니라 '투명'이 됩니다)">&#129529;</button>
+  <button id="btn-fill" data-tool="fill" title="채우기 (F) — 클릭한 칸과 이어진 같은 색 영역을 한 번에 채웁니다 (플러드필).">&#129531;</button>
+  <button id="btn-eyedrop" data-tool="eyedrop" title="색상 추출 (I) — 캔버스의 픽셀을 클릭하면 그 색을 전경색으로 가져옵니다 (스포이드).">&#128137;</button>
+  <button id="btn-line" data-tool="line" title="선 (L) — 누른 지점부터 뗀 지점까지 직선을 그립니다. 드래그 중 미리보기.">&#9586;</button>
+  <button id="btn-rect" data-tool="rect" title="사각형 (R) — 드래그한 영역에 사각형 외곽선을 그립니다.">&#9633;</button>
+  <button id="btn-ellipse" data-tool="ellipse" title="원 (O) — 드래그한 영역 안에 타원/원 외곽선을 그립니다.">&#9711;</button>
+  <button id="btn-select" data-tool="select" title="선택/이동 (S) — 영역을 드래그로 네모 선택. 안쪽을 다시 드래그하면 이동, Alt+드래그=복사. Ctrl+C/V 복사·붙여넣기, Delete 삭제, 방향키 1px 이동, Esc 해제.">&#9023;</button>
+  <div class="tb-sep"></div>
+  <span class="tb-label">브러시</span>
+  <select id="sel-brush" title="브러시 크기 — 한 번에 찍히는 점의 크기 (1·2·3px). 단축키 [ 작게 / ] 크게."><option value="1">1px</option><option value="2">2px</option><option value="3">3px</option></select>
+  <button id="btn-mirror" title="대칭 그리기 (M) — 그릴 때 좌우·상하·사방으로 자동 대칭 복사. 클릭할 때마다 끄기→좌우→상하→사방 순환. (이미 그린 걸 뒤집는 '반전'과 다릅니다)">&#8596; 대칭</button>
+  <button id="btn-flip-h" title="좌우 반전 — 선택영역이 있으면 그 영역만, 없으면 현재 프레임 전체를 좌우로 뒤집습니다.">&#8646;</button>
+  <button id="btn-flip-v" title="상하 반전 — 선택영역 또는 현재 프레임 전체를 위아래로 뒤집습니다.">&#8645;</button>
+  <button id="btn-rot-cw" title="90° 회전 (시계) — 선택영역 또는 현재 프레임 전체를 시계방향 90도 돌립니다.">&#8635;</button>
+  <button id="btn-rot-ccw" title="90° 회전 (반시계) — 반시계방향으로 90도 돌립니다.">&#8634;</button>
+  <div class="tb-sep"></div>
+  <button id="btn-undo" title="되돌리기 (Ctrl+Z) — 직전 작업 취소. 최대 20단계.">&#8617;</button>
+  <button id="btn-redo" title="다시하기 (Ctrl+Y) — 되돌린 작업을 다시 적용.">&#8618;</button>
+  <span id="undo-count"></span>
+  <div class="tb-sep"></div>
+  <span class="tb-label">크기</span>
+  <select id="sel-size" title="캔버스 크기 — 픽셀 격자의 가로·세로 칸 수. 바꾸면 비우기 또는 내용 유지(리사이즈)를 고릅니다."><option>8</option><option>16</option><option selected>32</option><option>48</option><option>64</option><option>96</option><option>128</option><option>256</option><option>512</option></select>
+  <button id="btn-upscale" title="배율 조정 — 각 도트를 정수배로 확대(×2/×3/×4) 또는 축소(÷2/÷3/÷4). 예: 2×2 블록이면 ÷2로 1도트가 됩니다.">&#10530; 배율</button>
+  <span class="tb-label">팔레트</span>
+  <select id="sel-bits" title="팔레트 색 수 — 왼쪽 팔레트에 표시할 기본 색 개수. '무제한(HSL)'은 포토샵식 전체 색."><option value="8">8색</option><option value="16">16색</option><option value="32">32색</option><option value="64">64색</option><option value="128">128색</option><option value="256">256색</option><option value="0">무제한(HSL)</option></select>
+  <div class="tb-sep"></div>
+  <button id="btn-grid" class="active" title="격자 — 메인 캔버스의 픽셀 칸 격자선 켜기/끄기. (저장·PNG에는 안 들어갑니다)">격자</button>
+  <button id="btn-bg-toggle" class="active" title="배경 — 투명 영역을 체커무늬로 표시 켜기/끄기. (PNG에는 안 들어갑니다)">배경</button>
+  <div class="tb-sep"></div>
+  <button id="btn-llm" title="AI 도트 그리기 — 글로 설명하면 AI가 픽셀아트로 그려줍니다. API 키 / Hermes(구독) / 또는 키 없이 '프롬프트 복사+JSON 붙여넣기' 수동 방식.">&#129302; AI(JSON)</button>
+  <button id="btn-import-img" title="이미지 임포트 — 사진·PNG를 도트로 변환해서 가져옵니다. 캔버스에 파일을 드래그&드롭해도 됩니다.">&#128444; 이미지 임포트</button>
+  <button id="btn-settings" title="설정 — API 키 / Hermes 주소·키 / 기본 캔버스 크기·줌.">&#9881;&#65039; 설정</button>
+  <div class="tb-sep"></div>
+  <button id="btn-save-file" title="저장 — .sprite 파일(JSON)로 저장. 모든 프레임·사용자 색이 함께 저장됩니다.">&#128190; 저장</button>
+  <button id="btn-load-file" title="열기 — 저장한 .sprite 파일을 엽니다.">&#128194; 열기</button>
+  <button id="btn-recent" title="임시저장 — 현재 작업을 이 브라우저에 임시 저장하고, 목록에서 클릭해 불러옵니다(복원). 직접 저장·직접 삭제. 파일 저장과 별개예요.">&#128336; 임시저장</button>
+  <button id="btn-export" title="PNG 내보내기 — 현재 프레임을 원본 크기 PNG로. 투명 유지, 체커·격자 미포함.">&#11015;&#65039; PNG</button>
+  <button id="btn-export-sheet" title="스프라이트 시트 — 모든 프레임을 한 장의 PNG로 배치(열 수 지정). 애니메이션용.">&#127922; 시트</button>
+  <button id="btn-clear" class="warn" title="초기화 — 현재 프레임을 모두 비웁니다. (되돌리기 가능)">&#128465; 초기화</button>
+  <div class="tb-sep"></div>
+  <button id="btn-lang" title="Language — 한국어 / English">EN</button>
+  <input type="file" id="load-input" accept=".sprite,.json" style="display:none">
+  <input type="file" id="img-input" accept="image/*" style="display:none">
+</div>
+<!-- 모바일 전용: 상단바 / 하단 도구바 / 오버레이 -->
+<div id="m-top">
+  <button id="m-menu" class="m-ic" aria-label="메뉴">&#9776;</button>
+  <button id="m-undo" class="m-ic" aria-label="되돌리기">&#8617;</button>
+  <button id="m-redo" class="m-ic" aria-label="다시하기">&#8618;</button>
+  <span class="m-sp"></span>
+  <canvas id="m-swatch" width="28" height="28" title="현재 색 — 탭하면 색·팔레트"></canvas>
+  <button id="m-lang" class="m-ic">EN</button>
+</div>
+<div id="m-tools">
+  <button class="m-tool active" data-mtool="draw" aria-label="그리기">&#9999;&#65039;</button>
+  <button class="m-tool" data-mtool="erase" aria-label="지우기">&#129529;</button>
+  <button class="m-tool" data-mtool="fill" aria-label="채우기">&#129531;</button>
+  <button class="m-tool" data-mtool="eyedrop" aria-label="색상 추출">&#128137;</button>
+  <button class="m-tool" data-mtool="line" aria-label="선">&#9586;</button>
+  <button class="m-tool" data-mtool="rect" aria-label="사각형">&#9633;</button>
+  <button class="m-tool" data-mtool="ellipse" aria-label="원">&#9711;</button>
+  <button class="m-tool" data-mtool="select" aria-label="선택">&#9023;</button>
+</div>
+<div id="m-overlay"></div>
+<div id="main">
+  <div id="left-panel">
+    <div class="pnl-hd">색상</div>
+    <div id="color-main-wrap">
+      <div id="color-current-row">
+        <div id="swatch-stack">
+          <canvas id="swatch-bg" width="30" height="30" title="배경색 (우클릭 팔레트/클릭 투명화)"></canvas>
+          <canvas id="swatch-fg" width="30" height="30" title="전경색"></canvas>
+          <button id="swap-btn" title="교체 (X)">&#8644;</button>
+        </div>
+        <div style="flex:1">
+          <div style="font-size:10px;color:var(--text2);margin-bottom:2px">현재 색상</div>
+          <input type="color" id="native-picker">
+        </div>
+      </div>
+      <div class="hex-row"><input type="text" id="hex-input" maxlength="9" placeholder="#rrggbbaa"></div>
+      <div class="opacity-row">
+        <label>불투명도</label>
+        <input type="range" id="opacity-range" min="0" max="255" value="255">
+        <span id="opacity-val">100%</span>
+      </div>
+    </div>
+    <div id="hsl-section">
+      <div class="hsl-row"><label>H</label><input type="range" id="h-range" min="0" max="360" value="0"><span id="h-val">0</span></div>
+      <div class="hsl-row"><label>S</label><input type="range" id="s-range" min="0" max="100" value="0"><span id="s-val">0</span></div>
+      <div class="hsl-row"><label>L</label><input type="range" id="l-range" min="0" max="100" value="0"><span id="l-val">0</span></div>
+    </div>
+    <div class="pnl-hd">최근 색</div>
+    <div id="recent-wrap" style="padding:5px 10px;background:var(--panel-bg)">
+      <div id="recent-grid" style="display:grid;grid-template-columns:repeat(8,1fr);gap:2px"></div>
+    </div>
+    <div class="pnl-hd">팔레트 <span id="palette-count" style="font-weight:400;text-transform:none;letter-spacing:0"></span></div>
+    <div id="palette-wrap">
+      <div id="palette-grid"></div>
+      <button id="add-to-palette">+ 현재 색 추가</button>
+      <div style="display:flex;gap:4px;margin:0 0 4px">
+        <button id="btn-pal-save" style="flex:1;font-size:11px;height:24px;padding:0 4px">팔레트 저장</button>
+        <button id="btn-pal-load" style="flex:1;font-size:11px;height:24px;padding:0 4px">불러오기</button>
+      </div>
+      <input type="file" id="pal-input" accept=".pal,.json" style="display:none">
+    </div>
+  </div>
+  <div id="canvas-area">
+    <div id="canvas-viewport">
+      <canvas id="bg-layer"></canvas>
+      <canvas id="canvas-layer"></canvas>
+      <canvas id="grid-layer"></canvas>
+    </div>
+  </div>
+  <div id="right-panel">
+    <div class="pnl-hd">미리보기</div>
+    <div id="prev-toggles">
+      <button id="btn-prev-tile" class="prev-toggle" title="타일 미리보기 — 그림을 3×3으로 반복해 보여줍니다. 배경 타일처럼 이어 붙였을 때 이음새가 맞는지 확인용.">타일</button>
+      <button id="btn-prev-grid" class="prev-toggle active" title="미리보기 격자선 — 2x·4x 미리보기에 픽셀 격자선 표시.">격자</button>
+      <button id="btn-prev-checker" class="prev-toggle active" title="미리보기 체커 — 투명 영역을 체커무늬로 표시. 끄면 투명(빈칸)으로 보입니다.">체커</button>
+      <button id="btn-prev-box" class="prev-toggle active" title="미리보기 박스 — 각 미리보기를 감싸는 테두리 사각형 표시.">사각형</button>
+    </div>
+    <div class="rv-block">
+      <div class="rv-label" id="lbl-prev1">1x 원본</div>
+      <div class="checker-bg-wrap"><canvas id="prev1"></canvas></div>
+      <div class="rv-label" id="lbl-prev2">2x</div>
+      <div class="checker-bg-wrap"><canvas id="prev2"></canvas></div>
+      <div class="rv-label" id="lbl-prev4">4x</div>
+      <div class="checker-bg-wrap"><canvas id="prev4"></canvas></div>
+      <div id="tile-block" style="display:none">
+        <div class="rv-label">타일 3×3</div>
+        <div class="checker-bg-wrap"><canvas id="prev-tile"></canvas></div>
+      </div>
+    </div>
+  </div>
+</div>
+<div id="frames-bar">
+  <div class="frame-ctrls">
+    <button id="btn-frame-add" title="프레임 추가 — 현재 프레임 뒤에 빈 프레임을 하나 넣고 그 프레임으로 이동합니다.">＋</button>
+    <button id="btn-frame-dup" title="프레임 복제 — 현재 프레임을 똑같이 복사해서 뒤에 넣습니다. (모션의 다음 동작 만들 때 편함)">⧉</button>
+    <button id="btn-frame-del" title="프레임 삭제 — 현재 프레임을 지웁니다. (최소 1개는 남습니다)">🗑</button>
+    <button id="btn-motion" title="모션 템플릿 — 걷기(4)·달리기(6)·공격(3)·점프(3) 등 빈 프레임 세트를 한 번에 추가합니다. 그림은 직접 그리고, 어니언 스킨으로 보조하세요.">🎬 모션</button>
+  </div>
+  <div class="frame-ctrls">
+    <button id="btn-play" title="애니메이션 재생/정지 — 모든 프레임을 옆 FPS 속도로 순서대로 재생해 동작을 미리봅니다. 캔버스를 건드리면 멈춥니다.">▶</button>
+    <input type="number" id="anim-fps" min="1" max="30" value="8" title="재생 속도 — 초당 보여줄 프레임 수(FPS). 숫자가 클수록 빠릅니다. (보통 6~12)" style="width:42px;height:26px;border:1px solid var(--border);border-radius:5px;padding:0 4px;font-size:11px;background:var(--surface);color:var(--text)">
+    <span style="font-size:10px;color:var(--text3)">fps</span>
+    <button id="btn-onion" title="어니언 스킨 — 앞·뒤 프레임을 반투명하게 겹쳐 보여줍니다. 이전 프레임=빨강, 다음 프레임=파랑 그림자. 모션을 그릴 때 직전 동작 위에 조금씩 옮겨 그리라고 도와주는 기능이에요. (실제 그림에는 안 들어갑니다)">🧅 어니언</button>
+  </div>
+  <span id="frame-count">1프레임</span>
+  <div id="frames-list"></div>
+</div>
+<div id="statusbar">
+  <span id="st-pos">--</span>
+  <span id="st-color">--</span>
+  <span id="st-zoom">x10</span>
+  <span id="st-size">32x32</span>
+  <span id="st-pan" class="st-pan-hint" style="margin-left:auto;color:var(--text3)">휠클릭: 이동 | 휠: 확대축소</span>
+</div>
+</div>
+
+<main id="info">
+  <h1 data-i18n="land_h1">도트 스프라이트 에디터</h1>
+  <p class="sub" data-i18n="land_sub">브라우저에서 바로 쓰는 무료 픽셀 아트 / 스프라이트 에디터. 설치도 회원가입도 없이, 모든 작업은 당신의 브라우저 안에서만 처리됩니다.</p>
+  <section>
+    <h2 data-i18n="land_use_h">이렇게 쓰세요</h2>
+    <p data-i18n="land_use">위 캔버스에 바로 도트를 찍어보세요. 브러시·대칭·선/도형으로 그리고, 프레임을 추가해 애니메이션(걷기·공격 등)을 만들고, 어니언 스킨으로 직전 동작을 비춰보며 다듬습니다. 완성하면 PNG(배율 선택)나 스프라이트 시트로 내보내거나, .sprite 파일로 저장해 나중에 이어서 편집하세요. 사진·이미지를 끌어다 놓으면 배경 제거·팔레트 감소를 거쳐 도트로 변환됩니다.</p>
+  </section>
+  <section>
+    <h2 data-i18n="land_priv_h">개인정보</h2>
+    <p data-i18n="land_priv">그리기·저장·내보내기 등 모든 핵심 기능은 서버 없이 브라우저에서만 동작하며 아무것도 업로드하지 않습니다. AI 그리기 기능은 선택사항으로, 사용 시 당신이 입력한 API 키로 당신이 고른 AI 서비스에 직접 전송되며 이 사이트의 서버는 거치지 않고 아무것도 저장하지 않습니다.</p>
+  </section>
+  <section>
+    <h2 data-i18n="faq_h">자주 묻는 질문</h2>
+    <details><summary data-i18n="faq_q1">무료인가요?</summary><p data-i18n="faq_a1">네, 완전 무료이며 회원가입이 필요 없습니다. 오픈소스입니다.</p></details>
+    <details><summary data-i18n="faq_q2">내 그림이 서버로 전송되나요?</summary><p data-i18n="faq_a2">아니요. 그리기·저장·내보내기는 모두 브라우저 안에서만 처리됩니다. AI 기능을 켤 때만, 당신의 키로 당신이 고른 AI에 직접 전송됩니다.</p></details>
+    <details><summary data-i18n="faq_q3">어떤 형식으로 저장/내보내나요?</summary><p data-i18n="faq_a3">편집을 이어가려면 .sprite(JSON, 프레임 포함), 결과물은 투명 PNG(배율 ×1~16) 또는 스프라이트 시트 PNG로 내보냅니다.</p></details>
+    <details><summary data-i18n="faq_q4">모바일에서도 되나요?</summary><p data-i18n="faq_a4">네. 터치로 그리기·핀치 줌을 지원하며 화면 폭에 맞춰 레이아웃이 조정됩니다.</p></details>
+    <details><summary data-i18n="faq_q5">애니메이션도 만들 수 있나요?</summary><p data-i18n="faq_a5">네. 여러 프레임을 만들고 FPS로 재생하며, 어니언 스킨과 모션 템플릿으로 걷기·공격 같은 동작을 그릴 수 있습니다.</p></details>
+  </section>
+  <div class="ftr">Dot Sprite Editor · <a href="https://github.com/hanariago/tool-dot-sprite-editor" rel="noopener">GitHub</a> · MIT · 100% in-browser</div>
+</main>
+
+<!-- SETTINGS -->
+<div class="overlay" id="settings-overlay">
+<div class="modal-box" id="settings-box">
+  <h3>&#9881;&#65039; 설정</h3>
+  <div class="field"><label>기본 캔버스 크기</label><select id="cfg-defsize"><option>8</option><option>16</option><option selected>32</option><option>48</option><option>64</option><option>96</option><option>128</option></select></div>
+  <div class="field"><label>기본 줌 배율</label><select id="cfg-defzoom"><option value="4">x4</option><option value="8">x8</option><option value="10" selected>x10</option><option value="16">x16</option></select></div>
+  <p style="font-size:11px;color:var(--text3);margin-top:8px">AI 서비스 키·연결은 툴바의 🤖 AI(JSON) 창 → '자동 연결' 탭에서 설정합니다.</p>
+  <div class="modal-btns"><button id="settings-cancel">취소</button><button id="settings-save" class="active">저장</button></div>
+</div>
+</div>
+
+<!-- LLM DRAW -->
+<div class="overlay" id="llm-overlay">
+<div class="modal-box" id="llm-box">
+  <h3>&#129302; AI 도트 그리기</h3>
+  <!-- 공통 입력: 그릴 내용 + 결과 타입 -->
+  <div class="field">
+    <label>그려줄 내용 (한국어 OK)</label>
+    <textarea id="llm-prompt" placeholder="예: 빨간 사과 아이콘, 귀여운 고양이 얼굴, 8비트 칼 아이콘"></textarea>
+  </div>
+  <div class="field" style="margin-bottom:10px">
+    <label>결과 타입</label>
+    <div style="display:flex;gap:16px;font-size:12px;flex-wrap:wrap">
+      <label style="display:flex;gap:5px;align-items:center;cursor:pointer;white-space:nowrap"><input type="radio" name="frametype" value="single" checked> 1프레임 (한 장)</label>
+      <label style="display:flex;gap:5px;align-items:center;cursor:pointer;white-space:nowrap"><input type="radio" name="frametype" value="motion"> 모션 (현재 <span id="ft-n">1</span>프레임)</label>
+    </div>
+  </div>
+  <div class="field" style="margin-bottom:10px">
+    <label>방식</label>
+    <div style="display:flex;gap:16px;font-size:12px;flex-wrap:wrap">
+      <label style="display:flex;gap:5px;align-items:center;cursor:pointer;white-space:nowrap"><input type="radio" name="outputmode" value="json" checked> JSON 픽셀 (모든 서비스)</label>
+      <label style="display:flex;gap:5px;align-items:center;cursor:pointer;white-space:nowrap"><input type="radio" name="outputmode" value="image"> 도트 이미지 생성 (Nano Banana)</label>
+    </div>
+  </div>
+  <div class="field" style="margin-bottom:10px">
+    <label style="display:flex;align-items:center;gap:6px;cursor:pointer;margin:0"><input type="checkbox" id="use-palette"> <span>🎨 현재 팔레트 색만 사용 <span id="pal-n" style="color:var(--text3);font-weight:400"></span></span></label>
+  </div>
+  <!-- 탭 -->
+  <div class="settings-tabs">
+    <button class="aitab active" data-aitab="auto">🤖 자동 연결</button>
+    <button class="aitab" data-aitab="manual">📋 프롬프트 복사 (안전)</button>
+  </div>
+  <!-- 탭1: 자동 연결 -->
+  <div class="aipane active" id="aitab-auto">
+    <div class="field" id="provider-field">
+      <label>AI 서비스</label>
+      <select id="llm-provider"><option value="claude">Claude (Anthropic)</option><option value="gpt">GPT (OpenAI)</option><option value="grok">Grok (xAI)</option><option value="gemini">Gemini (Google)</option><option value="hermes">Hermes (구독·OAuth 프록시)</option></select>
+    </div>
+    <div class="field" id="image-mode-note" style="display:none">
+      <label>도트 이미지 생성</label>
+      <div style="font-size:12px;color:var(--text2)">Google Gemini (Nano Banana) — 도트(픽셀아트) 그림을 만든 뒤 자동으로 '이미지 임포트'로 넘겨 캔버스 크기 도트로 변환합니다.</div>
+    </div>
+    <div class="field" id="key-row-std">
+      <label>API 키</label>
+      <input type="password" id="ai-key" class="key-input" style="width:100%" placeholder="키 입력">
+      <div class="key-help" id="ai-key-help"></div>
+    </div>
+    <div id="key-row-hermes" style="display:none">
+      <div class="field"><label>Hermes 주소</label><input type="text" id="ai-hermes-url" class="key-input" style="width:100%" placeholder="http://localhost:8642/v1"></div>
+      <div class="field"><label>Hermes 키 (API_SERVER_KEY)</label><input type="password" id="ai-hermes-key" class="key-input" style="width:100%" placeholder="키"><div class="key-help">다른 PC면 그 PC의 주소 입력 (예: http://192.168.0.10:8642/v1)</div></div>
+    </div>
+    <div class="field">
+      <label style="display:flex;align-items:center;justify-content:space-between"><span>모델</span><button class="model-help-btn" id="fmt-help-btn">직접입력 양식 안내 &rsaquo;</button></label>
+      <div class="model-row">
+        <select id="llm-model"></select>
+        <button id="btn-load-models" style="font-size:11px;padding:0 7px;height:24px;display:none">목록</button>
+        <button id="btn-custom-model" style="font-size:11px;padding:0 7px;height:24px">직접입력</button>
+      </div>
+      <input type="text" id="llm-model-custom" placeholder="모델 ID 직접 입력" style="display:none;margin-top:5px;width:100%;border:1px solid var(--border);border-radius:5px;padding:4px 8px;font-size:12px;background:var(--surface);color:var(--text)">
+    </div>
+    <div class="modal-btns" style="justify-content:space-between">
+      <button id="btn-test-conn">🔌 연결 테스트</button>
+      <button id="llm-run" class="active">AI에게 그려달라고 하기</button>
+    </div>
+  </div>
+  <!-- 탭2: 프롬프트 복사 -->
+  <div class="aipane" id="aitab-manual">
+    <div style="font-size:11px;color:var(--text2);margin-bottom:8px">🔒 키·서버 없이 — 내 구독(ChatGPT/Claude/Grok·Nano Banana) 채팅에 붙여넣어 받아옵니다.</div>
+    <button id="btn-copy-prompt" style="width:100%;margin-bottom:7px">① 프롬프트 복사 → 구독 채팅에 붙여넣기</button>
+    <div id="manual-json">
+      <textarea id="paste-json" placeholder="② AI가 준 JSON 붙여넣기 ( {&quot;pixels&quot;:[...]} 또는 {&quot;frames&quot;:[...]} )" style="width:100%;height:58px;resize:vertical;border:1px solid var(--border);border-radius:5px;padding:6px 8px;font-size:11px;font-family:monospace;background:var(--surface);color:var(--text)"></textarea>
+      <button id="btn-apply-json" class="active" style="width:100%;margin-top:7px">③ JSON 적용 → 캔버스에 그리기</button>
+    </div>
+    <div id="manual-image" style="display:none">
+      <div style="font-size:11px;color:var(--text2);line-height:1.6;margin-bottom:7px">② 생성된 <b>이미지를 저장</b>한 뒤 → 캔버스에 <b>드래그&드롭</b>(또는 아래 버튼)하면 '이미지 임포트'에서 도트로 변환됩니다.</div>
+      <button id="btn-open-import" class="active" style="width:100%">③ 이미지 임포트 열기 (그림 불러와 도트 변환)</button>
+    </div>
+  </div>
+
+  <div id="llm-status"></div>
+  <div class="modal-btns"><button id="llm-cancel">닫기</button></div>
+</div>
+</div>
+
+<!-- FORMAT HELP -->
+<div class="overlay" id="fmt-overlay">
+<div class="modal-box" id="fmt-box">
+  <h3>&#128203; 직접입력 모델 ID 양식 안내</h3>
+  <div class="fmt-section">
+    <h4><span class="provider-badge badge-claude" style="font-size:10px">Claude</span> Anthropic</h4>
+    <ul><li>API 엔드포인트: https://api.anthropic.com/v1/messages</li><li>헤더: x-api-key / anthropic-version: 2023-06-01</li><li>최신 모델 예시 (2025.06 기준)</li></ul>
+    <code>claude-sonnet-4-6
+claude-opus-4-5
+claude-sonnet-4-5
+claude-haiku-4-5</code>
+  </div>
+  <div class="fmt-section">
+    <h4><span class="provider-badge badge-gpt" style="font-size:10px">GPT</span> OpenAI</h4>
+    <ul><li>API 엔드포인트: https://api.openai.com/v1/chat/completions</li><li>헤더: Authorization: Bearer sk-proj-...</li></ul>
+    <code>gpt-4o
+gpt-4o-mini
+gpt-4.1
+gpt-4.1-mini
+gpt-4.1-nano
+o4-mini
+o3</code>
+  </div>
+  <div class="fmt-section">
+    <h4><span class="provider-badge badge-grok" style="font-size:10px">Grok</span> xAI</h4>
+    <ul><li>API 엔드포인트: https://api.x.ai/v1/chat/completions</li><li>헤더: Authorization: Bearer xai-...</li></ul>
+    <code>grok-3
+grok-3-fast
+grok-3-mini
+grok-2-1212
+grok-beta</code>
+  </div>
+  <div class="fmt-section">
+    <h4><span class="provider-badge badge-gemini" style="font-size:10px">Gemini</span> Google</h4>
+    <ul><li>API URL: https://generativelanguage.googleapis.com/v1beta/models/{MODEL}:generateContent?key=AIza...</li><li>헤더 불필요, 키는 URL 파라미터에 포함</li></ul>
+    <code>gemini-2.5-pro-preview-06-05
+gemini-2.5-flash-preview-05-20
+gemini-2.0-flash
+gemini-1.5-pro
+gemini-1.5-flash</code>
+  </div>
+  <div class="modal-btns"><button id="fmt-close" class="active">닫기</button></div>
+</div>
+</div>
+
+<!-- IMAGE IMPORT -->
+<div class="overlay" id="import-overlay">
+<div class="modal-box" id="import-box">
+  <h3>&#128444; 이미지 → 도트 변환</h3>
+  <div id="drop-zone">
+    <div id="drop-msg">이미지를 여기에 드래그&드롭<br>또는 클릭해서 파일 선택<br><span style="font-size:10px;color:var(--text3)">PNG / JPG / GIF / WebP</span><br><span style="font-size:10px;color:var(--accent)">💡 AI 앱(Nano Banana·ChatGPT 등)에서 만든 그림을 끌어다 놓으면 도트로 변환됩니다</span></div>
+    <canvas id="import-preview-canvas"></canvas>
+  </div>
+  <div id="import-preview-wrap"></div>
+  <div class="import-opt">
+    <label>안티앨리어싱</label>
+    <select id="import-resample">
+      <option value="nearest">끄기 (또렷한 도트 · 권장)</option>
+      <option value="bilinear">켜기 (부드럽게 · 색 많아짐)</option>
+    </select>
+  </div>
+  <div class="import-opt">
+    <label>가장자리 선명도</label>
+    <input type="range" id="import-edge-tol" min="0" max="100" value="50" title="알파 임계값 — 이 값 이상 불투명한 픽셀만 남기고 나머지는 투명. 0=원본 유지, 높일수록 반투명 가장자리를 더 많이 제거" style="flex:1">
+    <span id="import-edge-tolv" style="font-size:11px;color:var(--text2);min-width:34px;text-align:right">50%</span>
+  </div>
+  <div class="import-opt">
+    <label>팔레트 감소</label>
+    <select id="import-palette">
+      <option value="none">원본 색상 유지</option>
+      <option value="current">현재 팔레트로 매핑</option>
+      <option value="256">표준 256색</option>
+      <option value="128">128색</option>
+      <option value="64">64색</option>
+      <option value="32">32색</option>
+      <option value="16">16색</option>
+    </select>
+  </div>
+  <div class="import-opt">
+    <label>배경 제거</label>
+    <select id="import-bg-mode">
+      <option value="none">끄기</option>
+      <option value="auto">자동 (모서리색)</option>
+      <option value="pick">색 지정 (미리보기 클릭)</option>
+    </select>
+  </div>
+  <div class="import-opt" id="import-bg-row" style="display:none">
+    <label>배경색 / 허용</label>
+    <input type="color" id="import-bg-color" value="#ffffff" style="flex:0 0 34px;min-width:34px;padding:1px;height:28px">
+    <input type="range" id="import-bg-tol" min="0" max="100" value="15" style="flex:1">
+    <span id="import-bg-tolv" style="font-size:11px;color:var(--text2);min-width:34px;text-align:right">15%</span>
+  </div>
+  <div class="import-opt">
+    <label>배치 크기</label>
+    <select id="import-size">
+      <option value="canvas">캔버스 크기에 맞춤</option>
+      <option value="8">8×8</option>
+      <option value="16">16×16</option>
+      <option value="32">32×32</option>
+      <option value="48">48×48</option>
+      <option value="64">64×64</option>
+      <option value="96">96×96</option>
+      <option value="128">128×128</option>
+    </select>
+  </div>
+  <div class="modal-btns">
+    <button id="import-cancel">취소</button>
+    <button id="import-run" class="active" disabled>캔버스에 적용</button>
+  </div>
+</div>
+</div>
+
+<!-- MOTION TEMPLATE -->
+<div class="overlay" id="motion-overlay">
+<div class="modal-box" id="motion-box">
+  <h3>🎬 모션 프레임 템플릿</h3>
+  <p style="font-size:11px;color:var(--text2);margin-bottom:10px">선택한 개수만큼 <b>빈 프레임</b>을 현재 프레임 뒤에 추가합니다. (그림은 직접, 어니언 스킨으로 보조)</p>
+  <div id="motion-presets" style="display:grid;grid-template-columns:repeat(3,1fr);gap:6px;margin-bottom:12px"></div>
+  <div class="field" style="display:flex;align-items:center;gap:8px;margin-bottom:0">
+    <label style="margin:0">직접 개수</label>
+    <input type="number" id="motion-custom-n" min="1" max="24" value="4" style="width:70px">
+    <button id="motion-custom-run" class="active" style="height:30px">추가</button>
+  </div>
+  <div class="modal-btns"><button id="motion-cancel">닫기</button></div>
+</div>
+</div>
+
+<!-- RECENT WORKS (LOCAL AUTOSAVE) -->
+<div class="overlay" id="recent-overlay">
+<div class="modal-box" id="recent-box">
+  <h3>&#128336; 임시저장</h3>
+  <p style="font-size:11px;color:var(--text2);margin-bottom:10px">현재 작업을 임시로 저장/복원합니다. 직접 저장하고 직접 지웁니다. (파일 저장과 별개, 이 브라우저에만)</p>
+  <div style="display:flex;gap:8px;align-items:center;margin-bottom:10px">
+    <button id="temp-save" class="active">＋ 지금 상태 저장</button>
+    <span id="temp-status" style="font-size:11px;color:var(--text2)"></span>
+  </div>
+  <div id="recent-list" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(72px,1fr));gap:8px;max-height:48vh;overflow-y:auto"></div>
+  <div class="modal-btns"><button id="recent-clear" class="warn">전체 삭제</button><button id="recent-close" class="active">닫기</button></div>
+</div>
+</div>
+
+<!-- PNG EXPORT -->
+<div class="overlay" id="png-overlay">
+<div class="modal-box" id="png-box">
+  <h3>&#11015;&#65039; PNG 내보내기</h3>
+  <p style="font-size:11px;color:var(--text2);margin-bottom:10px">현재 프레임을 PNG로 저장합니다. 배율을 키워도 도트는 또렷하게 유지됩니다(nearest). 투명·체커 미포함.</p>
+  <div class="field">
+    <label>배율</label>
+    <select id="png-scale">
+      <option value="1" selected>×1 (원본 — 게임/스프라이트용)</option>
+      <option value="2">×2</option>
+      <option value="4">×4</option>
+      <option value="8">×8 (크게·또렷 — 공유/미리보기용)</option>
+      <option value="16">×16</option>
+    </select>
+  </div>
+  <p id="png-info" style="font-size:11px;color:var(--text2)"></p>
+  <div class="modal-btns"><button id="png-cancel">취소</button><button id="png-run" class="active">PNG 내보내기</button></div>
+</div>
+</div>
+
+<!-- SPRITE SHEET EXPORT -->
+<div class="overlay" id="sheet-overlay">
+<div class="modal-box" id="sheet-box">
+  <h3>&#127922; 스프라이트 시트 내보내기</h3>
+  <p style="font-size:11px;color:var(--text2);margin-bottom:10px">모든 프레임을 한 장의 PNG로 배치합니다.</p>
+  <div class="field">
+    <label>가로(열) 프레임 수</label>
+    <input type="number" id="sheet-cols" min="1" value="1">
+  </div>
+  <p id="sheet-info" style="font-size:11px;color:var(--text2)"></p>
+  <div class="modal-btns"><button id="sheet-cancel">취소</button><button id="sheet-run" class="active">PNG 내보내기</button></div>
+</div>
+</div>
+
+<!-- CONFIRM -->
+<div class="overlay" id="confirm-overlay">
+<div class="modal-box" id="confirm-box">
+  <h3 id="confirm-title">확인</h3>
+  <p id="confirm-msg" style="font-size:12px;color:var(--text2);margin-bottom:0"></p>
+  <div class="modal-btns" id="confirm-btns"></div>
+</div>
+</div>
+
+<!-- 모듈 분리된 스크립트 (file:// 호환 위해 일반 script 순차 로드) -->
+<script src="js/i18n.js"></script>
+<script src="js/state.js"></script>
+<script src="js/color.js"></script>
+<script src="js/render.js"></script>
+<script src="js/history.js"></script>
+<script src="js/shapes.js"></script>
+<script src="js/select.js"></script>
+<script src="js/frames.js"></script>
+<script src="js/tools.js"></script>
+<script src="js/io.js"></script>
+<script src="js/autosave.js"></script>
+<script src="js/main.js"></script>
+<script src="js/mobile.js"></script>
+<script src="js/tooltip.js"></script>
+<!-- tools-hub 교차링크 (tools-hub public 전환 후 작동) -->
+<script src="https://hanariago.github.io/tools-hub/footer.js" defer></script>
+</body>
+</html>

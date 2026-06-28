@@ -1,0 +1,8 @@
+# OS
+Thumbs.db
+.DS_Store
+desktop.ini
+
+# Editor/agent
+.claude/
+*.tmp
