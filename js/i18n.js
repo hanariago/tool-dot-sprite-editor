@@ -38,7 +38,10 @@ const I18N = {
     faq_q2:'내 그림이 서버로 전송되나요?', faq_a2:'아니요. 그리기·저장·내보내기는 모두 브라우저 안에서만 처리됩니다. AI 기능을 켤 때만, 당신의 키로 당신이 고른 AI에 직접 전송됩니다.',
     faq_q3:'어떤 형식으로 저장/내보내나요?', faq_a3:'편집을 이어가려면 .sprite(JSON, 프레임 포함), 결과물은 투명 PNG(배율 ×1~16) 또는 스프라이트 시트 PNG로 내보냅니다.',
     faq_q4:'모바일에서도 되나요?', faq_a4:'네. 터치로 그리기·핀치 줌을 지원하며 화면 폭에 맞춰 레이아웃이 조정됩니다.',
-    faq_q5:'애니메이션도 만들 수 있나요?', faq_a5:'네. 여러 프레임을 만들고 FPS로 재생하며, 어니언 스킨과 모션 템플릿으로 걷기·공격 같은 동작을 그릴 수 있습니다.'
+    faq_q5:'애니메이션도 만들 수 있나요?', faq_a5:'네. 여러 프레임을 만들고 FPS로 재생하며, 어니언 스킨과 모션 템플릿으로 걷기·공격 같은 동작을 그릴 수 있습니다.',
+    faq_q6:'제 API 키는 안전한가요?', faq_a6:'AI 기능은 선택이며, 키를 넣지 않아도 모든 그리기·저장·내보내기를 쓸 수 있습니다. 입력한 키는 이 브라우저에만 저장되고(이 사이트 서버로 전송·저장되지 않음), 요청은 당신이 고른 AI 제공사로만 직접 전송됩니다. 코드는 오픈소스라 직접 확인할 수 있으니, 신뢰가 서는 경우에만 본인 책임으로 키를 입력하세요. 공용 PC에서는 사용 후 설정에서 키를 비우는 것을 권장합니다.',
+    ai_key_note:'⚠️ 키는 이 브라우저에만 저장되고 당신이 고른 AI로만 직접 전송됩니다(이 사이트 서버 경유·저장 없음). 오픈소스라 검증 가능 — 신뢰가 설 때만 본인 책임으로 입력하세요. 키 없이도 위 「프롬프트 복사」 방식으로 쓸 수 있어요.',
+    ftr_lic:'오픈소스 · MIT 라이선스', hub_link:'🔧 다른 도구 모음 →'
   },
   en: {
     __title: 'Dot Sprite Editor — Free Online Pixel Art & Sprite Maker',
@@ -71,7 +74,10 @@ const I18N = {
     faq_q2:'Is my artwork sent to a server?', faq_a2:'No. Drawing, saving and exporting all happen in your browser. Only the optional AI feature sends data — directly to the AI you pick, with your own key.',
     faq_q3:'What formats can I save/export?', faq_a3:'Use .sprite (JSON, with frames) to keep editing, and export a transparent PNG (scale ×1–16) or a sprite-sheet PNG.',
     faq_q4:'Does it work on mobile?', faq_a4:'Yes. Touch drawing and pinch zoom are supported and the layout adapts to screen width.',
-    faq_q5:'Can I make animations?', faq_a5:'Yes. Create multiple frames, play them at a chosen FPS, and draw motions like walk/attack with onion skinning and motion templates.'
+    faq_q5:'Can I make animations?', faq_a5:'Yes. Create multiple frames, play them at a chosen FPS, and draw motions like walk/attack with onion skinning and motion templates.',
+    faq_q6:'Is my API key safe?', faq_a6:'The AI feature is optional — you can draw, save and export without entering any key. Any key you enter is stored only in this browser (never sent to or stored on this site), and requests go directly to the AI provider you choose. The code is open source so you can verify it; enter a key only if you trust it, at your own discretion. On shared computers, clear the key in Settings after use.',
+    ai_key_note:'⚠️ Your key is stored only in this browser and sent only to the AI you choose (never via or stored on this site). Open source & verifiable — enter at your own discretion. No key? Use “Copy prompt” above instead.',
+    ftr_lic:'Open source · MIT License', hub_link:'🔧 More tools →'
   }
 };
 

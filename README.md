@@ -19,6 +19,8 @@
 ## 🔒 개인정보 / Privacy
 그리기·저장·내보내기 등 모든 핵심 기능은 브라우저에서만 동작하며 아무것도 업로드하지 않습니다. AI 기능 사용 시에만, **당신이 입력한 키로 당신이 고른 AI 서비스에 직접** 전송되며 이 사이트 서버는 거치지 않습니다.
 
+> **AI 키 고지:** AI 기능은 선택입니다(키 없이도 모든 그리기·저장·내보내기 가능). 입력한 키는 이 브라우저(localStorage)에만 저장되고 이 사이트 서버로는 전송·저장되지 않으며, 요청은 당신이 고른 AI 제공사로만 직접 갑니다. 코드는 오픈소스라 직접 검증할 수 있으니 **신뢰가 설 때만 본인 책임으로** 키를 입력하세요. 공용 PC에서는 사용 후 설정에서 키를 비우길 권장합니다.
+
 ## 🚀 실행 / Run
 - 온라인: 위 Live 링크
 - 로컬: `index.html`을 더블클릭(`file://`) 또는 `python -m http.server 8000`
@@ -26,5 +28,11 @@
 ## 🛠 기술 / Tech
 바닐라 JavaScript · HTML5 Canvas · CSS · 빌드 도구 없음 · 일반 `<script>` 순차 로드.
 
+## 사용한 오픈소스 / 에셋
+- 외부 라이브러리·폰트·번들 에셋 없음 (순수 HTML/CSS/JS). AI 그리기는 사용자가 선택한 외부 AI 서비스(Anthropic/OpenAI/xAI/Google/Hermes)를 본인 키로 직접 호출하는 것으로, 코드에 포함된 모델·키는 없습니다.
+
 ## 📄 라이선스 / License
 MIT
+
+---
+Made by [Lena](https://x.com/thezenvoid) · License: MIT · 🔧 [다른 도구 모음 →](https://hanariago.github.io/tools-hub/)
