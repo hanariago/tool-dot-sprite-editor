@@ -415,6 +415,17 @@ gemini-1.5-flash</code>
     </select>
   </div>
   <div class="import-opt">
+    <label>도트 블록</label>
+    <select id="import-block" title="도트 블록 — 변환된 격자를 N×N 칸씩 한 색으로 묶어 깔끔하게 픽셀화. AI가 만든 어긋난 도트를 격자에 딱 맞춥니다. '현재 팔레트로 매핑'과 같이 쓰면 색까지 정리됨.">
+      <option value="1">1×1 (원본 격자)</option>
+      <option value="2">2×2로 묶기</option>
+      <option value="3">3×3로 묶기</option>
+      <option value="4">4×4로 묶기</option>
+      <option value="5">5×5로 묶기</option>
+      <option value="6">6×6로 묶기</option>
+    </select>
+  </div>
+  <div class="import-opt">
     <label>배경 제거</label>
     <select id="import-bg-mode">
       <option value="none">끄기</option>

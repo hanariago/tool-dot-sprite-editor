@@ -444,6 +444,21 @@ function applyAlphaThreshold(ctx,size){
   for(let i=0;i<d.length;i+=4){d[i+3]=d[i+3]>=thr?255:0;}
   ctx.putImageData(id,0,0);
 }
+// 도트 블록: 격자를 N×N 칸씩 한 색으로 묶음 (불투명 픽셀 평균색, 알파는 다수결)
+function getImportBlock(){return Math.max(1,parseInt(document.getElementById('import-block').value)||1);}
+function applyBlockify(ctx,size,n){
+  if(n<=1)return;
+  const id=ctx.getImageData(0,0,size,size),d=id.data;
+  for(let by=0;by<size;by+=n)for(let bx=0;bx<size;bx+=n){
+    const x1=Math.min(bx+n,size),y1=Math.min(by+n,size);
+    let r=0,g=0,b=0,opaque=0,total=0;
+    for(let y=by;y<y1;y++)for(let x=bx;x<x1;x++){const i=(y*size+x)*4;total++;if(d[i+3]>=128){r+=d[i];g+=d[i+1];b+=d[i+2];opaque++;}}
+    const a=(opaque*2>=total)?255:0;
+    const ar=opaque?Math.round(r/opaque):0,ag=opaque?Math.round(g/opaque):0,ab=opaque?Math.round(b/opaque):0;
+    for(let y=by;y<y1;y++)for(let x=bx;x<x1;x++){const i=(y*size+x)*4;d[i]=ar;d[i+1]=ag;d[i+2]=ab;d[i+3]=a;}
+  }
+  ctx.putImageData(id,0,0);
+}
 // 처리 결과(투명 포함) 캔버스 생성 — 프리뷰·적용 공용
 function buildImportResult(targetSize){
   const oc=document.createElement('canvas');oc.width=targetSize;oc.height=targetSize;
@@ -453,7 +468,8 @@ function buildImportResult(targetSize){
   octx.drawImage(importSrcImage,0,0,targetSize,targetSize);
   applyAlphaThreshold(octx,targetSize);   // ① 가장자리 먼저 딱딱하게 → 배경제거가 내부로 안 샘
   removeBg(octx,targetSize);              // ② 가장자리에서 연결된 배경만 투명 (내부 같은색 보존)
-  applyPaletteToCtx(octx,targetSize,getImportPalette());
+  applyBlockify(octx,targetSize,getImportBlock()); // ③ N×N 블록으로 묶어 격자 정렬·픽셀화
+  applyPaletteToCtx(octx,targetSize,getImportPalette()); // ④ 묶은 색을 팔레트로 스냅
   return oc;
 }
 function updateImportPreview(){
@@ -477,7 +493,7 @@ function updateImportPreview(){
 }
 
 // 옵션 변경 시 프리뷰 갱신
-['import-resample','import-palette','import-size'].forEach(id=>{
+['import-resample','import-palette','import-size','import-block'].forEach(id=>{
   document.getElementById(id).addEventListener('change',updateImportPreview);
 });
 document.getElementById('import-edge-tol').addEventListener('input',function(){document.getElementById('import-edge-tolv').textContent=this.value+'%';updateImportPreview();});
