@@ -41,7 +41,16 @@ const I18N = {
     faq_q5:'애니메이션도 만들 수 있나요?', faq_a5:'네. 여러 프레임을 만들고 FPS로 재생하며, 어니언 스킨과 모션 템플릿으로 걷기·공격 같은 동작을 그릴 수 있습니다.',
     faq_q6:'제 API 키는 안전한가요?', faq_a6:'AI 기능은 선택이며, 키를 넣지 않아도 모든 그리기·저장·내보내기를 쓸 수 있습니다. 입력한 키는 이 브라우저에만 저장되고(이 사이트 서버로 전송·저장되지 않음), 요청은 당신이 고른 AI 제공사로만 직접 전송됩니다. 코드는 오픈소스라 직접 확인할 수 있으니, 신뢰가 서는 경우에만 본인 책임으로 키를 입력하세요. 공용 PC에서는 사용 후 설정에서 키를 비우는 것을 권장합니다.',
     ai_key_note:'⚠️ 키는 이 브라우저에만 저장되고 당신이 고른 AI로만 직접 전송됩니다(이 사이트 서버 경유·저장 없음). 오픈소스라 검증 가능 — 신뢰가 설 때만 본인 책임으로 입력하세요. 키 없이도 위 「프롬프트 복사」 방식으로 쓸 수 있어요.',
-    ftr_lic:'오픈소스 · MIT 라이선스', hub_link:'🔧 다른 도구 모음 →'
+    ftr_lic:'오픈소스 · MIT 라이선스', hub_link:'🔧 다른 도구 모음 →',
+    guide_title:'도트 스프라이트 에디터에 오신 걸 환영해요 👋',
+    guide_intro:'설치·회원가입 없이 브라우저에서 바로 픽셀 아트를 만들 수 있어요. 이런 걸 할 수 있어요:',
+    guide_f1:'✏️ 그리기 — 브러시·대칭·선/도형·채우기·스포이드',
+    guide_f2:'🎞️ 애니메이션 — 프레임 추가·어니언 스킨·FPS 재생·모션 템플릿',
+    guide_f3:'🖼️ 이미지 임포트 — 사진·AI 그림을 끌어다 놓으면 도트로 변환(배경 제거·도트 블록 묶기)',
+    guide_f4:'🤖 AI 그리기 — 글로 설명하면 AI가 픽셀아트로(선택·본인 키)',
+    guide_f5:'💾 저장·내보내기 — .sprite로 저장, PNG(배율)·스프라이트 시트',
+    guide_f6:'📱 모바일 — 터치 그리기·핀치 줌 지원',
+    guide_dont:'오늘 다시 보지 않기', guide_close:'닫기'
   },
   en: {
     __title: 'Dot Sprite Editor — Free Online Pixel Art & Sprite Maker',
@@ -77,7 +86,16 @@ const I18N = {
     faq_q5:'Can I make animations?', faq_a5:'Yes. Create multiple frames, play them at a chosen FPS, and draw motions like walk/attack with onion skinning and motion templates.',
     faq_q6:'Is my API key safe?', faq_a6:'The AI feature is optional — you can draw, save and export without entering any key. Any key you enter is stored only in this browser (never sent to or stored on this site), and requests go directly to the AI provider you choose. The code is open source so you can verify it; enter a key only if you trust it, at your own discretion. On shared computers, clear the key in Settings after use.',
     ai_key_note:'⚠️ Your key is stored only in this browser and sent only to the AI you choose (never via or stored on this site). Open source & verifiable — enter at your own discretion. No key? Use “Copy prompt” above instead.',
-    ftr_lic:'Open source · MIT License', hub_link:'🔧 More tools →'
+    ftr_lic:'Open source · MIT License', hub_link:'🔧 More tools →',
+    guide_title:'Welcome to Dot Sprite Editor 👋',
+    guide_intro:'Make pixel art right in your browser — no install, no sign-up. Here’s what you can do:',
+    guide_f1:'✏️ Draw — brush, symmetry, line/shapes, fill, eyedropper',
+    guide_f2:'🎞️ Animate — add frames, onion skin, FPS playback, motion templates',
+    guide_f3:'🖼️ Import — drop a photo or AI image to convert to dots (bg removal, dot-block grouping)',
+    guide_f4:'🤖 AI draw — describe it in words; optional, with your own key',
+    guide_f5:'💾 Save & export — .sprite file, PNG (scaled) or sprite sheet',
+    guide_f6:'📱 Mobile — touch drawing and pinch zoom',
+    guide_dont:'Don’t show again today', guide_close:'Close'
   }
 };
 

@@ -522,6 +522,27 @@ gemini-1.5-flash</code>
 </div>
 </div>
 
+<!-- FIRST-VISIT GUIDE -->
+<div class="overlay" id="guide-overlay">
+<div class="modal-box" id="guide-box">
+  <button id="guide-x" title="닫기" aria-label="close">✕</button>
+  <h3 data-i18n="guide_title">도트 스프라이트 에디터에 오신 걸 환영해요 👋</h3>
+  <p data-i18n="guide_intro" style="margin-bottom:6px">설치·회원가입 없이 브라우저에서 바로 픽셀 아트를 만들 수 있어요. 이런 걸 할 수 있어요:</p>
+  <ul class="guide-list">
+    <li data-i18n="guide_f1">✏️ 그리기 — 브러시·대칭·선/도형·채우기·스포이드</li>
+    <li data-i18n="guide_f2">🎞️ 애니메이션 — 프레임 추가·어니언 스킨·FPS 재생·모션 템플릿</li>
+    <li data-i18n="guide_f3">🖼️ 이미지 임포트 — 사진·AI 그림을 끌어다 놓으면 도트로 변환(배경 제거·도트 블록 묶기)</li>
+    <li data-i18n="guide_f4">🤖 AI 그리기 — 글로 설명하면 AI가 픽셀아트로(선택·본인 키)</li>
+    <li data-i18n="guide_f5">💾 저장·내보내기 — .sprite로 저장, PNG(배율)·스프라이트 시트</li>
+    <li data-i18n="guide_f6">📱 모바일 — 터치 그리기·핀치 줌 지원</li>
+  </ul>
+  <div class="guide-ftr">
+    <label><input type="checkbox" id="guide-dont"> <span data-i18n="guide_dont">오늘 다시 보지 않기</span></label>
+    <button id="guide-close" class="active" data-i18n="guide_close">닫기</button>
+  </div>
+</div>
+</div>
+
 <!-- CONFIRM -->
 <div class="overlay" id="confirm-overlay">
 <div class="modal-box" id="confirm-box">
@@ -546,5 +567,6 @@ gemini-1.5-flash</code>
 <script src="js/main.js"></script>
 <script src="js/mobile.js"></script>
 <script src="js/tooltip.js"></script>
+<script src="js/guide.js"></script>
 </body>
 </html>
