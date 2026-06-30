@@ -1,6 +1,16 @@
 // ═══════════════════════ CANVAS SETUP / TRANSFORM ═══════════════════════
 function initCanvas(){pixels=Array.from({length:SIZE},()=>Array(SIZE).fill(null));centerCanvas();renderAll();}
-function centerCanvas(){const vw=canvasVP.clientWidth,vh=canvasVP.clientHeight;offsetX=Math.round((vw-SIZE*ZOOM)/2);offsetY=Math.round((vh-SIZE*ZOOM)/2);applyTransform();}
+function centerCanvas(){
+  const vw=canvasVP.clientWidth,vh=canvasVP.clientHeight;
+  // 큰 캔버스가 뷰포트를 넘으면 한눈에 보이도록 줌을 자동 축소(작은 캔버스는 그대로 유지)
+  const fit=Math.min(vw,vh)*0.92;
+  if(SIZE*ZOOM>fit){
+    let z=ZOOM_STEPS[0];
+    for(const s of ZOOM_STEPS){if(SIZE*s<=fit)z=s;}
+    if(z<ZOOM){ZOOM=z;const ze=document.getElementById('st-zoom');if(ze)ze.textContent='x'+ZOOM;}
+  }
+  offsetX=Math.round((vw-SIZE*ZOOM)/2);offsetY=Math.round((vh-SIZE*ZOOM)/2);applyTransform();
+}
 function applyTransform(){const s=`translate(${offsetX}px,${offsetY}px)`;bgC.style.transform=s;mainC.style.transform=s;gridC.style.transform=s;}
 
 // ═══════════════════════ RENDER ═══════════════════════
@@ -10,7 +20,12 @@ function canvasPx(){return Math.round(SIZE*ZOOM);}
 function renderBg(){
   const w=canvasPx(),h=canvasPx();bgC.width=w;bgC.height=h;bgCtx.clearRect(0,0,w,h);
   if(!showBg)return;
-  for(let y=0;y<SIZE;y++)for(let x=0;x<SIZE;x++){bgCtx.fillStyle=((x+y)%2===0)?'#b8b8b8':'#e8e8e8';bgCtx.fillRect(Math.round(x*ZOOM),Math.round(y*ZOOM),ZOOM,ZOOM);}
+  // 2칸짜리 체커 타일을 패턴으로 한 번에 채움 → 캔버스 크기(예: 2048²)와 무관하게 O(1)
+  const c=ZOOM,tile=document.createElement('canvas');tile.width=c*2;tile.height=c*2;
+  const tc=tile.getContext('2d');
+  tc.fillStyle='#b8b8b8';tc.fillRect(0,0,c,c);tc.fillRect(c,c,c,c);
+  tc.fillStyle='#e8e8e8';tc.fillRect(c,0,c,c);tc.fillRect(0,c,c,c);
+  bgCtx.fillStyle=bgCtx.createPattern(tile,'repeat');bgCtx.fillRect(0,0,w,h);
 }
 function renderMain(){
   const w=canvasPx(),h=canvasPx();mainC.width=w;mainC.height=h;mainCtx.clearRect(0,0,w,h);

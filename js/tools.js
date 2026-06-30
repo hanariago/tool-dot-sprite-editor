@@ -119,8 +119,8 @@ document.getElementById('btn-upscale').addEventListener('click',()=>{
   const btns=[{label:'취소',fn:()=>{}}];
   // 축소 ÷N (정수로 나눠지고 결과 ≥4) — 2×2 블록을 ÷2로 줄이면 1도트
   [2,3,4].forEach(n=>{if(SIZE%n===0&&SIZE/n>=4){const t=SIZE/n;btns.push({label:'÷'+n+' ('+t+'px)',fn:()=>{resizeCanvas(t);snap();}});}});
-  // 확대 ×N (≤256)
-  [2,3,4].forEach(n=>{if(SIZE*n<=512){const t=SIZE*n;btns.push({label:'×'+n+' ('+t+'px)',cls:n===2?'active':'',fn:()=>{resizeCanvas(t);snap();}});}});
+  // 확대 ×N (≤2048)
+  [2,3,4].forEach(n=>{if(SIZE*n<=2048){const t=SIZE*n;btns.push({label:'×'+n+' ('+t+'px)',cls:n===2?'active':'',fn:()=>{resizeCanvas(t);snap();}});}});
   if(btns.length<=1){showConfirm('배율 조정','지금 크기에선 정수배 확대/축소가 안 돼요.',[{label:'확인',cls:'active',fn:()=>{}}]);return;}
   showConfirm('배율 조정 (현재 '+SIZE+'px)','도트를 정수배로 키우거나 줄입니다. 2×2 블록이면 ÷2로 1도트가 돼요. 모든 프레임에 적용.',btns);
 });
